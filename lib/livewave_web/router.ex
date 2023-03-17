@@ -26,14 +26,28 @@ defmodule LivewaveWeb.Router do
 
     live "/users/:id", UserLive.Show, :show
     live "/users/:id/show/edit", UserLive.Show, :edit
+
+    live "/chatrooms", ChatroomLive.Index, :index
+    live "/chatrooms/new", ChatroomLive.Index, :new
+    live "/chatrooms/:id/edit", ChatroomLive.Index, :edit
+
+    live "/chatrooms/:id", ChatroomLive.Show, :show
+    live "/chatrooms/:id/show/edit", ChatroomLive.Show, :edit
+
+    live "/messages", MessageLive.Index, :index
+    live "/messages/new", MessageLive.Index, :new
+    live "/messages/:id/edit", MessageLive.Index, :edit
+
+    live "/messages/:id", MessageLive.Show, :show
+    live "/messages/:id/show/edit", MessageLive.Show, :edit
   end
 
   scope "/auth", LivewaveWeb do
     pipe_through :browser
 
+    get "/signout", AuthController, :signout
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
-    get "/logout", AuthController, :signout
   end
 
   # Other scopes may use custom stacks.

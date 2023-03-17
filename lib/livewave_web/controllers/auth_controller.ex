@@ -12,9 +12,9 @@ defmodule LivewaveWeb.AuthController do
   #   IO.inspect(params)
   # end
 
-  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, params) do
-    IO.inspect("--------->")
-    IO.inspect(auth.credentials.token)
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    # IO.inspect("--------->")
+    # IO.inspect(auth.credentials.token)
     user_params = %{
       email: auth.info.email,
       username: auth.info.nickname,

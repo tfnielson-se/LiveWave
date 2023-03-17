@@ -1,0 +1,46 @@
+<.header>
+  Listing Chatrooms
+  <:actions>
+    <.link patch={~p"/chatrooms/new"}>
+      <.button>New Chatroom</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="chatrooms"
+  rows={@streams.chatrooms}
+  row_click={fn {_id, chatroom} -> JS.navigate(~p"/chatrooms/#{chatroom}") end}
+>
+  <:col :let={{_id, chatroom}} label="Name"><%= chatroom.name %></:col>
+  <:action :let={{_id, chatroom}}>
+    <div class="sr-only">
+      <.link navigate={~p"/chatrooms/#{chatroom}"}>Show</.link>
+    </div>
+    <.link patch={~p"/chatrooms/#{chatroom}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, chatroom}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: chatroom.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="chatroom-modal"
+  show
+  on_cancel={JS.navigate(~p"/chatrooms")}
+>
+  <.live_component
+    module={LivewaveWeb.ChatroomLive.FormComponent}
+    id={@chatroom.id || :new}
+    title={@page_title}
+    action={@live_action}
+    chatroom={@chatroom}
+    patch={~p"/chatrooms"}
+  />
+</.modal>

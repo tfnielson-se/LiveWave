@@ -8,6 +8,8 @@ defmodule Livewave.Accounts.User do
     field :token, :string
     field :provider, :string
 
+    has_many :messages, Livewave.Posts.Messages
+
     timestamps()
   end
 
