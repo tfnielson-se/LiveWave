@@ -9,7 +9,7 @@ defmodule LivewaveWeb.ChatroomLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage chatroom records in your database.</:subtitle>
+        <:subtitle>Enter chatroom name</:subtitle>
       </.header>
 
       <.simple_form
@@ -53,14 +53,16 @@ defmodule LivewaveWeb.ChatroomLive.FormComponent do
   end
 
   defp save_chatroom(socket, :edit, chatroom_params) do
+    IO.inspect("-------->")
+    IO.inspect(chatroom_params)
     case Rooms.update_chatroom(socket.assigns.chatroom, chatroom_params) do
       {:ok, chatroom} ->
         notify_parent({:saved, chatroom})
 
         {:noreply,
-         socket
-         |> put_flash(:info, "Chatroom updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+        socket
+          |> put_flash(:info, "Chatroom updated successfully")
+          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign_form(socket, changeset)}

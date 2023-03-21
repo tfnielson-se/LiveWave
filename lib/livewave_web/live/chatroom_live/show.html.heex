@@ -9,7 +9,7 @@
 </.header>
 
 <.list>
-  <:item title="chatting with"><%= @chatroom.name %></:item>
+  <:item title={"#{@chatroom.name}"}></:item>
 </.list>
 <textarea class="w-full"></textarea>
 <.button phx-click="send" >SEND</.button>

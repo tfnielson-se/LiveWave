@@ -8,6 +8,8 @@ defmodule Livewave.Posts do
 
   alias Livewave.Posts.Message
 
+  # plug LivewaveWeb.Plugs.RequireAuth
+
   @doc """
   Returns the list of messages.
 

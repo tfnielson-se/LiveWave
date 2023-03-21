@@ -1,6 +1,7 @@
 defmodule LivewaveWeb.MessageLive.Index do
   use LivewaveWeb, :live_view
 
+  alias Livewave.Repo
   alias Livewave.Posts
   alias Livewave.Posts.Message
 
@@ -22,7 +23,7 @@ defmodule LivewaveWeb.MessageLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Message")
+    |> assign(:page_title, "New Message with")
     |> assign(:message, %Message{})
   end
 

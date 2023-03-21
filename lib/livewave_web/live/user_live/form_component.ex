@@ -21,7 +21,6 @@ defmodule LivewaveWeb.UserLive.FormComponent do
       >
         <.input field={@form[:username]} type="text" label="Username" />
         <.input field={@form[:email]} type="text" label="Email" />
-        <.input field={@form[:password_hash]} type="text" label="Password hash" />
         <:actions>
           <.button phx-disable-with="Saving...">Save User</.button>
         </:actions>
@@ -89,4 +88,6 @@ defmodule LivewaveWeb.UserLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+
 end

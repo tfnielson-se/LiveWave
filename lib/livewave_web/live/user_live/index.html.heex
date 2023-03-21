@@ -1,5 +1,6 @@
 <.header>
   Listing Users
+
   <:actions>
     <.link patch={~p"/users/new"}>
       <.button>New User</.button>
@@ -10,11 +11,10 @@
 <.table
   id="users"
   rows={@streams.users}
-  row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
+  row_click={fn {_id, user} -> JS.navigate(~p"/messages/new/#{user.id}") end}
 >
   <:col :let={{_id, user}} label="Username"><%= user.username %></:col>
   <:col :let={{_id, user}} label="Email"><%= user.email %></:col>
-  <%!-- <:col :let={{_id, user}} label="Password hash"><%= user.password_hash %></:col> --%>
   <:action :let={{_id, user}}>
     <div class="sr-only">
       <.link navigate={~p"/users/#{user}"}>Show</.link>

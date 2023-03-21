@@ -8,6 +8,8 @@ defmodule Livewave.Rooms do
 
   alias Livewave.Rooms.Chatroom
 
+
+
   @doc """
   Returns the list of chatrooms.
 

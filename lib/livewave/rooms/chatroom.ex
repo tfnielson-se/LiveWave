@@ -5,7 +5,7 @@ defmodule Livewave.Rooms.Chatroom do
   schema "chatrooms" do
     field :name, :string
 
-    has_many :messages, Livewave.Posts.Messages
+    has_many :messages, Livewave.Posts.Message
 
     timestamps()
   end

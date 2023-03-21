@@ -13,7 +13,7 @@ defmodule Livewave.Posts.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:body])
+    |> cast(attrs, [:body, :user_id, :chatroom_id])
     |> validate_required([:body, :user_id, :chatroom_id])
     |> validate_length(:body, min: 2, max: 100)
   end

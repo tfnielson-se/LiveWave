@@ -4,8 +4,13 @@ defmodule LivewaveWeb.UserLive.Index do
   alias Livewave.Accounts
   alias Livewave.Accounts.User
 
+  # plug(:check_topic_owner when action in [:update, :edit, :delete])
+
+
   @impl true
   def mount(_params, _session, socket) do
+    # IO.inspect("------->")
+    # IO.inspect(socket)
     {:ok, stream(socket, :users, Accounts.list_users())}
   end
 

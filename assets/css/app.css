@@ -3,3 +3,10 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+.button {
+  background: black;
+  color: white;
+  width: auto;
+  margin: auto
+}
