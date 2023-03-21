@@ -14,9 +14,6 @@ defmodule LivewaveWeb.UserLive.UserIndex do
   alias Livewave.Posts.Message
 
   def mount(_params, %{"user_id" => user_id}, socket) do
-    if connected?(socket) do
-      # IO.inspect(socket.assigns)
-    end
     current_user = Repo.get(User, user_id)
     {:ok, assign(socket, users: Accounts.list_users(), current_user: current_user)}
   end
@@ -28,17 +25,13 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
     user = Repo.get(User, user_id)
 
-    {:ok, new_room} = Rooms.create_chatroom(%{name: "Chat with: #{user.username}"})
-    IO.inspect("------->")
-    new_post = Posts.create_message(%{body: "hello", user_id: current_user.id, chatroom_id: new_room.id})
-    IO.inspect(new_post)
-    # {:noreply, redirect(socket, to: ~p"/chats/#{new_room.id}")}
-    {:noreply, socket}
+    {:ok, new_room} = Rooms.create_chatroom(%{name: "Chat between: #{user.username} & #{current_user.username}"})
+    {:noreply, redirect(socket, to: ~p"/chatrooms/#{new_room.id}")}
   end
 
   def render(assigns) do
     ~H"""
-    <section class="container w-full px-4 mx-auto">
+    <section class="container">
     <div class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">

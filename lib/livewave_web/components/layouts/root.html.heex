@@ -10,13 +10,8 @@
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
-        <script>
-      <%!-- <%= if @socket.assigns.user do %>
-        window.userToken = "<%= Phoenix.Token.sign(LivewaveWeb.Endpoint, "key", @socket.assigns.user.id) %>"
-      <%end %> --%>
-    </script>
   </head>
-  <body class="bg-white antialiased">
+  <body>
     <%= @inner_content %>
   </body>
 </html>
