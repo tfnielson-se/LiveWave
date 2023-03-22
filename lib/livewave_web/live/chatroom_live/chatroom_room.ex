@@ -57,17 +57,27 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     ~H"""
     <div class="chatroom">
       <strong> <%= @topic %> </strong>
-      <div class="messages"> <%= for message <- @messages do %>
-        <div class="single-msg" >
+      <div class="messages-area">
+      <%= for message <- @messages do %>
+      <%= if message.user_id == @current_user.id do%>
+        <div class="single-msg-current-user" >
         <p><small> from: <%= @current_user.username %> </small></p>
         <strong> <%= message.body %> </strong>
         </div>
+        <% else %>
+        <div class="single-msg-other-user" >
+        <p><small> from: <%= Repo.get(User, message.user_id).username %> </small></p>
+        <strong> <%= message.body %> </strong>
+        </div>
+        <% end %>
         <% end %>
       </div>
+      <div>
       <form phx-submit="submit">
         <textarea phx-change="track" name="message" class="textarea"/>
-      <button class="button" > Send </button>
+      <button class="button"> Send </button>
       </form>
+      </div>
     </div>
     """
   end

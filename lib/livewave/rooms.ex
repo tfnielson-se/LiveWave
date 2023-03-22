@@ -20,7 +20,10 @@ defmodule Livewave.Rooms do
 
   """
   def list_chatrooms do
-    Repo.all(Chatroom)
+    Chatroom
+    |> Repo.all()
+    |> Repo.preload([:messages, :users])
+    |> IO.inspect()
   end
 
   @doc """

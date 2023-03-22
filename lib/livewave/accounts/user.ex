@@ -18,5 +18,6 @@ defmodule Livewave.Accounts.User do
     user
     |> cast(attrs, [:username, :email, :token, :provider,])
     |> validate_required([:username, :email, :token, :provider,])
+    |> unique_constraint([:username, :email, :token])
   end
 end

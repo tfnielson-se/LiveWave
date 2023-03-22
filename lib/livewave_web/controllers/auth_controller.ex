@@ -29,10 +29,10 @@ defmodule LivewaveWeb.AuthController do
     case insert_or_update_user(changeset) do
       {:ok, user} ->
         socket
-        |> put_flash(:info, "Welcome back!")
         |> put_session(:user_id, user.id)
+        |> put_flash(:info, "Welcome back #{user.username}!")
         # |> IO.inspect()
-        |> redirect(to: ~p"/profile")
+        |> redirect(to: ~p"/")
       {:error, _reason} ->
         socket
         |> put_flash(:error, "Error signing in")
@@ -44,6 +44,7 @@ defmodule LivewaveWeb.AuthController do
     socket
     |> configure_session(drop: true)
     |> redirect(to: ~p"/")
+    |> put_flash(:info, "Goodbye!")
   end
 
   defp insert_or_update_user(changeset) do

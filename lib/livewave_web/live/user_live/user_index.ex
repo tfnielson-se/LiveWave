@@ -8,10 +8,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
   alias Livewave.Accounts.User
 
   alias Livewave.Rooms
-  alias Livewave.Rooms.Chatroom
-
   alias Livewave.Posts
-  alias Livewave.Posts.Message
 
   def mount(_params, %{"user_id" => user_id}, socket) do
     current_user = Repo.get(User, user_id)
@@ -22,7 +19,6 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def handle_event("new-chat", %{"value" => user_id}, socket) do
     current_user = socket.assigns.current_user
-
     user = Repo.get(User, user_id)
 
     {:ok, new_room} = Rooms.create_chatroom(%{name: "Chat between: #{user.username} & #{current_user.username}"})
@@ -31,79 +27,20 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def render(assigns) do
     ~H"""
-    <section class="container">
-    <div class="flex flex-col">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead class="bg-gray-50 dark:bg-gray-800">
-                            <tr>
-                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    <div class="flex items-center gap-x-3">
-                                            <span>ID#</span>
-
-                                    </div>
-                                </th>
-
-                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Status
-                                </th>
-
-                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    users
-                                </th>
-
-                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Customer
-                                </th>
-
-
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+<div class="mx-auto max-w-lg">
+  <ul class="divide-y divide-gray-200 rounded-xl border border-gray-200 shadow-sm">
     <%= for user <- @users do %>
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                                    <div class="inline-flex items-center gap-x-3">
-
-                                        <span>
-                                        <%= user.id %>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                    <div class="inline-flex items-center px-3 py-1 text-gray-500 rounded-full gap-x-2 bg-gray-100/60 dark:bg-green-600">
-
-                                        <button phx-click="new-chat" value={"#{user.id}"}
-                                        name={""}
-                                        class="text-sm font-normal text-white">Chat</button>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <div class="flex items-center gap-x-2">
-                                        <div>
-                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white "><%= user.username %></h2>
-                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
-                                            <%= user.email %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <div class="flex items-center gap-x-6">
-                                        <.link href={~p"/users/#{user.id}"} class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none"> View Profile </.link>
-                                    </div>
-                                </td>
-                            </tr>
-    <% end %>
-    </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    </section>
+    <li class="p-4">
+      <h4 class="text-lg font-medium leading-loose">
+      <%= user.username %>
+      </h4>
+      <p class="text-gray-500">
+      <%= user.email %>
+      </p>
+    </li>
+    <%end%>
+  </ul>
+</div>
     """
   end
 end

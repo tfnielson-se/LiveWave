@@ -6,6 +6,7 @@ defmodule Livewave.Rooms.Chatroom do
     field :name, :string
 
     has_many :messages, Livewave.Posts.Message
+    has_many :users, through: [:messages, :user]
 
     timestamps()
   end

@@ -4,8 +4,11 @@ defmodule Livewave.Posts.Message do
 
   schema "messages" do
     field :body, :string
-    field :user_id, :id
-    field :chatroom_id, :id
+    # field :user_id, :id
+    # field :chatroom_id, :id
+
+    belongs_to :chatroom, Livewave.Posts.Message
+    belongs_to :user, Livewave.Accounts.User
 
     timestamps()
   end
