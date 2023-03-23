@@ -1,7 +1,6 @@
 defmodule LivewaveWeb.MessageLive.Index do
   use LivewaveWeb, :live_view
 
-  alias Livewave.Repo
   alias Livewave.Posts
   alias Livewave.Posts.Message
 

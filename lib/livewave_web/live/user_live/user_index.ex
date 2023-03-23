@@ -34,12 +34,10 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def check_existing_room?(user, current_user) do
     Enum.any?(Rooms.list_chatrooms(), fn chatroom ->
-      String.contains?(chatroom.name, ["#{user.username}"])
-      &&
-      String.contains?(chatroom.name, ["#{current_user.username}"])
+      String.contains?(chatroom.name, ["#{user.username}"]) &&
+        String.contains?(chatroom.name, ["#{current_user.username}"])
     end)
   end
-
 
   def render(assigns) do
     ~H"""

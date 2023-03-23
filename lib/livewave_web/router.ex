@@ -9,8 +9,6 @@ defmodule LivewaveWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug LivewaveWeb.Plugs.SetUser
-
-
   end
 
   pipeline :api do
@@ -35,6 +33,7 @@ defmodule LivewaveWeb.Router do
 
     live "/new_chat", MessageLive.NewMessage
 
+    live "/chatrooms", ChatroomLive.ChatroomIndex
     live "/chatrooms/:id", ChatroomLive.ChatroomRoom
 
     # live "/users", UserLive.Index, :index
@@ -43,15 +42,15 @@ defmodule LivewaveWeb.Router do
     # live "/users/:id", UserLive.Show, :show
     # live "/users/:id/show/edit", UserLive.Show, :edit
 
-    live "/chatrooms", ChatroomLive.Index, :index
-    live "/chatrooms/:id/edit", ChatroomLive.Index, :edit
+    # live "/chatrooms", ChatroomLive.Index, :index
+    # live "/chatrooms/:id/edit", ChatroomLive.Index, :edit
     # live "/chatrooms/new", ChatroomLive.Index, :new
     # live "/chatrooms/:id", ChatroomLive.Show, :show
     # live "/chatrooms/:id/show/edit", ChatroomLive.Show, :edit
 
-    live "/messages", MessageLive.Index, :index
-    live "/messages/new", MessageLive.Index, :new
-    live "/messages/:id/edit", MessageLive.Index, :edit
+    # live "/messages", MessageLive.Index, :index
+    # live "/messages/new", MessageLive.Index, :new
+    # live "/messages/:id/edit", MessageLive.Index, :edit
 
     # live "/messages/:id", MessageLive.Show, :show
     # live "/messages/:id/show/edit", MessageLive.Show, :edit

@@ -2,7 +2,6 @@ defmodule LivewaveWeb.MessageLive.FormComponent do
   use LivewaveWeb, :live_component
 
   alias Livewave.Posts
-  alias Livewave.Accounts.User
 
   @impl true
   def render(assigns) do
@@ -69,7 +68,7 @@ defmodule LivewaveWeb.MessageLive.FormComponent do
     end
   end
 
-  defp save_message(socket, :new, %{}=message_params) do
+  defp save_message(socket, :new, %{} = message_params) do
     # IO.inspect("------->")
     # IO.inspect(socket)
     case Posts.create_message(message_params) do

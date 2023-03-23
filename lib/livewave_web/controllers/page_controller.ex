@@ -1,7 +1,6 @@
 defmodule LivewaveWeb.PageController do
   use LivewaveWeb, :controller
 
-  alias Livewave.Accounts
   # plug LivewaveWeb.Plugs.RequireAuth
 
   def home(socket, _params) do
