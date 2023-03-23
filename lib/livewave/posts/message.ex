@@ -18,6 +18,6 @@ defmodule Livewave.Posts.Message do
     message
     |> cast(attrs, [:body, :user_id, :chatroom_id])
     |> validate_required([:body, :user_id, :chatroom_id])
-    |> validate_length(:body, min: 2, max: 100)
+    |> validate_length(:body, min: 1, max: 100)
   end
 end

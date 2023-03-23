@@ -12,25 +12,27 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
   @impl true
   def mount(%{"id" => room_id}, %{"user_id" => user_id} = session, socket) do
     topic = "chatroom: " <> room_id
-    current_user = Accounts.get_user!(user_id)
-    room_name = Repo.get(Livewave.Rooms.Chatroom, room_id).name
 
-    chatroom_messages =
-      Enum.filter(Posts.list_messages(), fn msg ->
-        msg.chatroom_id == String.to_integer(room_id)
-      end)
-
-    if connected?(socket), do: subscribe(topic)
+    if connected?(socket) do
+    subscribe(topic)
+    end
 
     {:ok,
      assign(socket,
-       current_user: current_user,
-       messages: chatroom_messages,
+       current_user: Accounts.get_user!(user_id),
+       messages: chatroom_messages(room_id),
        room_id: room_id,
-       room_name: room_name,
+       room_name: Repo.get(Livewave.Rooms.Chatroom, room_id).name,
        topic: topic
      )}
   end
+
+  def chatroom_messages(room_id) do
+    Enum.filter(Posts.list_messages(), fn msg ->
+      msg.chatroom_id == String.to_integer(room_id)
+    end)
+  end
+
 
   @impl true
   def handle_event("submit", %{"message" => message}, socket) do
@@ -40,7 +42,14 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     case Posts.create_message(%{body: message, user_id: current_user, chatroom_id: room_id}) do
       {:ok, message} ->
         broadcast(socket.assigns.topic, "new-message", message)
-        {:noreply, socket}
+        {:noreply,
+          socket
+          |> put_flash(:info, "Message Sent")}
+
+        {:error, _reason} ->
+        {:noreply,
+          socket
+          |> put_flash(:error, "Messages can't be blank ")}
     end
   end
 

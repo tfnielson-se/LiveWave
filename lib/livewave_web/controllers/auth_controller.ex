@@ -44,7 +44,6 @@ defmodule LivewaveWeb.AuthController do
     socket
     |> configure_session(drop: true)
     |> redirect(to: ~p"/")
-    |> put_flash(:info, "Goodbye!")
   end
 
   defp insert_or_update_user(changeset) do
