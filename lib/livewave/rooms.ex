@@ -23,7 +23,6 @@ defmodule Livewave.Rooms do
     Chatroom
     |> Repo.all()
     |> Repo.preload([:messages, :users])
-    |> IO.inspect()
   end
 
   @doc """

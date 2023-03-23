@@ -13,21 +13,21 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
   def mount(%{"id" => room_id}, %{"user_id" => user_id} = session, socket) do
     topic = "chatroom: " <> room_id
     current_user = Accounts.get_user!(user_id)
+    room_name = Repo.get(Livewave.Rooms.Chatroom, room_id).name
 
     chatroom_messages =
       Enum.filter(Posts.list_messages(), fn msg ->
         msg.chatroom_id == String.to_integer(room_id)
       end)
 
-    if connected?(socket) do
-      subscribe(topic)
-    end
+    if connected?(socket), do: subscribe(topic)
 
     {:ok,
      assign(socket,
        current_user: current_user,
        messages: chatroom_messages,
        room_id: room_id,
+       room_name: room_name,
        topic: topic
      )}
   end
@@ -44,6 +44,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     end
   end
 
+  # needed for broadcast
   def handle_info(%{event: "new-message", payload: message}, socket) do
     # IO.inspect(payload: message.body)
     {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
@@ -56,27 +57,27 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
   def render(assigns) do
     ~H"""
     <div class="chatroom">
-      <strong> <%= @topic %> </strong>
+      <strong class="mb-5 underline"> <%= @room_name %> </strong>
       <div class="messages-area">
-      <%= for message <- @messages do %>
+    <%= for message <- @messages do %>
       <%= if message.user_id == @current_user.id do%>
         <div class="single-msg-current-user" >
-        <p><small> from: <%= @current_user.username %> </small></p>
-        <strong> <%= message.body %> </strong>
+          <p><small> from: <%= @current_user.username %> </small></p>
+          <strong> <%= message.body %> </strong>
         </div>
-        <% else %>
+      <% else %>
         <div class="single-msg-other-user" >
-        <p><small> from: <%= Repo.get(User, message.user_id).username %> </small></p>
-        <strong> <%= message.body %> </strong>
+          <p><small> from: <%= Repo.get(User, message.user_id).username %> </small></p>
+          <strong> <%= message.body %> </strong>
         </div>
-        <% end %>
-        <% end %>
+      <% end %>
+    <% end %>
       </div>
-      <div>
-      <form phx-submit="submit">
-        <textarea phx-change="track" name="message" class="textarea"/>
-      <button class="button"> Send </button>
-      </form>
+      <div class="chat-form">
+        <form phx-submit="submit">
+            <textarea type="text" phx-change="track" name="message" class="textarea italic" placeholder="Message...."/>
+            <button class="button"> Send </button>
+        </form>
       </div>
     </div>
     """

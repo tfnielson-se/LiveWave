@@ -21,6 +21,10 @@ defmodule LivewaveWeb.UserLive.UserIndex do
     current_user = socket.assigns.current_user
     user = Repo.get(User, user_id)
 
+    # case Rooms.create_chatroom(%{name: "Chat between: #{user.username} & #{current_user.username}"}) do
+
+    # end
+
     {:ok, new_room} = Rooms.create_chatroom(%{name: "Chat between: #{user.username} & #{current_user.username}"})
     {:noreply, redirect(socket, to: ~p"/chatrooms/#{new_room.id}")}
   end
@@ -28,6 +32,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
   def render(assigns) do
     ~H"""
 <div class="mx-auto max-w-lg">
+ <div class="divide-y divide-gray-200 rounded-xl border border-gray-200 shadow-sm text-center my-2 bg-gradient-to-r from-transparent to-blue-200">Online Users</div>
   <ul class="divide-y divide-gray-200 rounded-xl border border-gray-200 shadow-sm">
     <%= for user <- @users do %>
     <li class="p-4">
@@ -37,6 +42,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
       <p class="text-gray-500">
       <%= user.email %>
       </p>
+      <button phx-click="new-chat" value={"#{user.id}"} class="underline">Chat</button>
     </li>
     <%end%>
   </ul>
