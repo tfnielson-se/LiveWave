@@ -15,12 +15,14 @@ defmodule LivewaveWeb.UserLive.UserProfile do
 
   def render(assigns) do
     ~H"""
-<div class="card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
-  <div class=" p-4">
-    <h3 class="text-xl font-medium text-gray-900"> <strong>@<%= @current_user.username %></strong></h3>
-    <p class="mt-1 text-zinc-900"><%= @current_user.email %></p>
-  </div>
-</div>
+    <div class="card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
+      <div class=" p-4">
+        <h3 class="text-xl font-medium text-gray-900">
+          <strong>@<%= @current_user.username %></strong>
+        </h3>
+        <p class="mt-1 text-zinc-900"><%= @current_user.email %></p>
+      </div>
+    </div>
     """
   end
 end

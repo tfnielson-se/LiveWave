@@ -5,8 +5,6 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomIndex do
   alias Livewave.Repo
   alias Livewave.Rooms
 
-  alias Livewave.Posts
-
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
@@ -37,9 +35,9 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomIndex do
     <div class="mx-auto max-w-lg">
       <ul class="space-y-4">
         <%= for chatroom <- @chatrooms do %>
-          <li class="flex card border-b border-r rounded-xl border-zinc-100 gap-4">
+          <li class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
             <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">
-              <h1 class="text-3xl mt-3 ml-3">💬</h1>
+              <h1 class="text-3xl">💬</h1>
             </div>
             <div class="flex-1">
               <.link navigate={~p"/chatrooms/#{chatroom.id}"}>

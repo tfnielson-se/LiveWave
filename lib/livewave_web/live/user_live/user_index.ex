@@ -11,6 +11,11 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def mount(_params, %{"user_id" => user_id}, socket) do
     current_user = Repo.get(User, user_id)
+    # topic = "users_list"
+
+    if connected?(socket) do
+      # Livewave.Presence.track(topic)
+    end
     {:ok, assign(socket, users: Accounts.list_users(), current_user: current_user)}
   end
 
@@ -47,20 +52,22 @@ defmodule LivewaveWeb.UserLive.UserIndex do
     ~H"""
     <div class="mx-auto max-w-lg">
       <ul class="space-y-4">
-        <%= for user <- @users do %>
-          <li phx-click="save" value={user.id} class="flex card border-b border-r rounded-xl border-zinc-100 gap-4 my-1">
+        <%= for user <- @users do  %>
+        <%= unless user == @current_user do %>
+          <li phx-click="save" value={user.id} class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
             <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">
 
             </div>
             <div class="flex-1">
                 <h4 class="text-xl font-medium leading-loose">
-                  @<%= user.username %>
+                  <strong>@<%= user.username %></strong>
                 </h4>
                 <h4 class="text-l font-small leading-loose">
                   email: <%= user.email %>
                 </h4>
             </div>
           </li>
+          <%end %>
         <% end %>
       </ul>
     </div>

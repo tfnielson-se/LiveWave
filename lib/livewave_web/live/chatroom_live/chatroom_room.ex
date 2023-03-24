@@ -38,9 +38,10 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
       {:ok, message} ->
         broadcast(socket.assigns.topic, "new-message", message)
 
-        {:noreply,
-         socket
-        #  |> put_flash(:info, "Message Sent")
+        {
+          :noreply,
+          socket
+          #  |> put_flash(:info, "Message Sent")
         }
 
       {:error, _reason} ->
@@ -50,15 +51,16 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     end
   end
 
+  def handle_event("track", _params, socket) do
+    {:noreply, socket}
+  end
+
   # needed for broadcast
   def handle_info(%{event: "new-message", payload: message}, socket) do
     # IO.inspect(payload: message.body)
     {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
   end
 
-  def handle_event("track", _params, socket) do
-    {:noreply, socket}
-  end
 
   def render(assigns) do
     ~H"""
