@@ -8,7 +8,6 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
 
   alias Livewave.Posts
 
-  @impl true
   def mount(%{"id" => room_id}, %{"user_id" => user_id}, socket) do
     topic = "chatroom: " <> room_id
 
@@ -27,10 +26,10 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
   end
 
   def chatroom_messages(room_id) do
-    Enum.filter(Posts.list_messages(), fn msg -> msg.chatroom_id == String.to_integer(room_id) end)
+    Posts.list_messages()
+    |> Enum.filter(fn msg -> msg.chatroom_id == String.to_integer(room_id) end)
   end
 
-  @impl true
   def handle_event("save", %{"message" => message}, socket) do
     room_id = socket.assigns.room_id
     current_user = socket.assigns.current_user.id
