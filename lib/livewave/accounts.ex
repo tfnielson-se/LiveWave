@@ -8,6 +8,8 @@ defmodule Livewave.Accounts do
 
   alias Livewave.Accounts.User
 
+  # plug LivewaveWeb.Plugs.RequireAuth
+
   @doc """
   Returns the list of users.
 

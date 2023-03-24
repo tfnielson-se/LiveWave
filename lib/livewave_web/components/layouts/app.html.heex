@@ -1,37 +1,39 @@
 <header class="px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3">
     <div class="flex items-center gap-4">
-      <a href="/">
-      
-      </a>
-      <p class="rounded-full bg-brand/5 px-2 text-[0.8125rem] font-medium leading-6 text-brand">
-        v<%= Application.spec(:phoenix, :vsn) %>
-      </p>
-    </div>
-    <div class="flex items-center gap-4">
-      <a
-        href="https://twitter.com/elixirphoenix"
-        class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-      >
-        @elixirphoenix
-      </a>
-      <a
-        href="https://github.com/phoenixframework/phoenix"
-        class="text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-      >
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
+      <.link navigate="/">
+      <strong class="text-xl">LiveWave |></strong>
+      </.link>
+
+      <.link
+        navigate="/users"
         class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
       >
-        Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
+        Users
+      </.link>
+      <.link
+        navigate="/chatrooms"
+        class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+      >
+        Chats
+      </.link>
+    <.link
+        navigate="/messages"
+        class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+      >
+        Msg
+      </.link>
     </div>
+      <.link
+        navigate="/auth/signout"
+        class="rounded-lg bg-zinc-900 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100 hover:bg-red-500"
+      >
+        Log out <span aria-hidden="true">&rarr;</span>
+      </.link>
   </div>
 </header>
 <main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
+  <div class="mx-auto">
     <.flash_group flash={@flash} />
     <%= @inner_content %>
   </div>

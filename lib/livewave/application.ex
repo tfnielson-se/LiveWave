@@ -19,9 +19,10 @@ defmodule Livewave.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Livewave.PubSub},
       # Start the Endpoint (http/https)
-      LivewaveWeb.Endpoint
+      LivewaveWeb.Endpoint,
       # Start a worker by calling: Livewave.Worker.start_link(arg)
       # {Livewave.Worker, arg}
+      LivewaveWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
