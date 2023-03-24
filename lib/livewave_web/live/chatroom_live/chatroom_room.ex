@@ -40,7 +40,8 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Message Sent")}
+        #  |> put_flash(:info, "Message Sent")
+        }
 
       {:error, _reason} ->
         {:noreply,
@@ -66,13 +67,13 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
       <div class="messages-area">
         <%= for message <- @messages do %>
           <%= if message.user_id == @current_user.id do %>
-            <div class="single-msg-current-user">
-              <p><small>from: <%= @current_user.username %></small></p>
+            <div class="card single-msg-current-user">
+              <p><small>from: @<%= @current_user.username %></small></p>
               <strong><%= message.body %></strong>
             </div>
           <% else %>
-            <div class="single-msg-other-user">
-              <p><small>from: <%= Repo.get(User, message.user_id).username %></small></p>
+            <div class="card single-msg-other-user">
+              <p><small>from: @<%= Repo.get(User, message.user_id).username %></small></p>
               <strong><%= message.body %></strong>
             </div>
           <% end %>

@@ -16,7 +16,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   @implt true
 
-  def handle_event("new-chat", %{"value" => user_id}, socket) do
+  def handle_event("save", %{"value" => user_id}, socket) do
     current_user = socket.assigns.current_user
     user = Repo.get(User, user_id)
 
@@ -34,28 +34,35 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def check_existing_room?(user, current_user) do
     Enum.any?(Rooms.list_chatrooms(), fn chatroom ->
-      String.contains?(chatroom.name, ["#{user.username}"]) &&
-        String.contains?(chatroom.name, ["#{current_user.username}"])
+      user_already_has_chat?(chatroom, user) &&
+        user_already_has_chat?(chatroom, current_user)
     end)
+  end
+
+  def user_already_has_chat?(chatroom, user) do
+    String.contains?(chatroom.name, ["#{user.username}"])
   end
 
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-lg">
-    <div class="divide-y divide-gray-200 rounded-xl border border-gray-200 shadow-sm text-center my-2 bg-gradient-to-r from-transparent to-blue-500">Online Users</div>
-    <ul class="divide-y divide-gray-200 rounded-xl border border-gray-200 shadow-sm">
-    <%= for user <- @users do %>
-    <li class="p-4">
-      <h4 class="text-lg font-medium leading-loose">
-      <%= user.username %>
-      </h4>
-      <p class="text-gray-500">
-      <%= user.email %>
-      </p>
-      <button phx-click="new-chat" value={"#{user.id}"} class="underline">Chat</button>
-    </li>
-    <%end%>
-    </ul>
+      <ul class="space-y-4">
+        <%= for user <- @users do %>
+          <li phx-click="save" value={user.id} class="flex card border-b border-r rounded-xl border-zinc-100 gap-4 my-1">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">
+
+            </div>
+            <div class="flex-1">
+                <h4 class="text-xl font-medium leading-loose">
+                  @<%= user.username %>
+                </h4>
+                <h4 class="text-l font-small leading-loose">
+                  email: <%= user.email %>
+                </h4>
+            </div>
+          </li>
+        <% end %>
+      </ul>
     </div>
     """
   end
