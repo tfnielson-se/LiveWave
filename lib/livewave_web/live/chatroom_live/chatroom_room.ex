@@ -3,25 +3,35 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
   import LivewaveWeb.Endpoint
 
   alias Livewave.Repo
+  alias LivewaveWeb.Presence
   alias Livewave.Accounts
   alias Livewave.Accounts.User
+  alias Livewave.Rooms.Chatroom
 
   alias Livewave.Posts
 
   def mount(%{"id" => room_id}, %{"user_id" => user_id}, socket) do
     topic = "chatroom: " <> room_id
+    current_user = Accounts.get_user!(user_id)
 
     if connected?(socket) do
       subscribe(topic)
+
+      Presence.track(self(), topic, current_user.username, %{
+        id: current_user.id,
+        username: current_user.username,
+        email: current_user.email
+      })
     end
 
     {:ok,
      assign(socket,
-       current_user: Accounts.get_user!(user_id),
+       current_user: current_user,
        messages: chatroom_messages(room_id),
        room_id: room_id,
-       room_name: Repo.get(Livewave.Rooms.Chatroom, room_id).name,
-       topic: topic
+       room_name: Repo.get(Chatroom, room_id).name,
+       topic: topic,
+       online_users: []
      )}
   end
 
@@ -30,6 +40,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     |> Enum.filter(fn msg -> msg.chatroom_id == String.to_integer(room_id) end)
   end
 
+  # creates new chatroom
   def handle_event("save", %{"message" => message}, socket) do
     room_id = socket.assigns.room_id
     current_user = socket.assigns.current_user.id
@@ -38,11 +49,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
       {:ok, message} ->
         broadcast(socket.assigns.topic, "new-message", message)
 
-        {
-          :noreply,
-          socket
-          #  |> put_flash(:info, "Message Sent")
-        }
+        {:noreply, socket}
 
       {:error, _reason} ->
         {:noreply,
@@ -51,6 +58,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     end
   end
 
+  # phx-change
   def handle_event("track", _params, socket) do
     {:noreply, socket}
   end
@@ -61,11 +69,31 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
   end
 
+  # needed for presence.track
+  def handle_info(%{event: "presence_diff", payload: %{joins: joins, leaves: leaves}}, socket) do
+    online_users =
+      Presence.list(socket.assigns.topic)
+      |> Map.keys()
+
+    IO.inspect(online_users)
+
+    {:noreply, assign(socket, online_users: online_users)}
+  end
 
   def render(assigns) do
     ~H"""
+    <div class="chatroom-head">
+      <strong><%= @room_name %></strong>
+    </div>
+    <div class="online-card flex flex-col justify-center ">
+      <strong class="underline">Online Users:</strong>
+    <%= for online_user <- @online_users do %>
+    <div>
+      <span class="italic">@<%= online_user %></span>
+    </div>
+    <%end%>
+    </div>
     <div class="chatroom">
-      <strong class="mb-5 underline"><%= @room_name %></strong>
       <div class="messages-area">
         <%= for message <- @messages do %>
           <%= if message.user_id == @current_user.id do %>
@@ -96,6 +124,4 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     </div>
     """
   end
-
-  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

@@ -11,10 +11,9 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def mount(_params, %{"user_id" => user_id}, socket) do
     current_user = Repo.get(User, user_id)
-    # topic = "users_list"
 
     if connected?(socket) do
-      # Livewave.Presence.track(topic)
+      # Livewave.Presence.track(self(), )
     end
     {:ok, assign(socket, users: Accounts.list_users(), current_user: current_user)}
   end
