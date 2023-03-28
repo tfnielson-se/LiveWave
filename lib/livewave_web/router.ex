@@ -36,13 +36,6 @@ defmodule LivewaveWeb.Router do
     live "/chatrooms", ChatroomLive.ChatroomIndex
     live "/chatrooms/:id", ChatroomLive.ChatroomRoom
 
-    live "/messages", MessageLive.Index, :index
-    live "/messages/new", MessageLive.Index, :new
-    live "/messages/:id/edit", MessageLive.Index, :edit
-
-    live "/messages/:id", MessageLive.Show, :show
-    live "/messages/:id/show/edit", MessageLive.Show, :edit
-
     live "/forums", ForumLive.ForumIndex, :index
   end
 
@@ -71,3 +64,10 @@ end
     # live "/chatrooms/new", ChatroomLive.Index, :new
     # live "/chatrooms/:id", ChatroomLive.Show, :show
     # live "/chatrooms/:id/show/edit", ChatroomLive.Show, :edit
+
+    # live "/messages", MessageLive.Index, :index
+    # live "/messages/new", MessageLive.Index, :new
+    # live "/messages/:id/edit", MessageLive.Index, :edit
+
+    # live "/messages/:id", MessageLive.Show, :show
+    # live "/messages/:id/show/edit", MessageLive.Show, :edit
