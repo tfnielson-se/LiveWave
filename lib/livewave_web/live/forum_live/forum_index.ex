@@ -14,10 +14,11 @@ defmodule LivewaveWeb.ForumLive.ForumIndex do
     if connected?(socket) do
       subscribe(topic)
     end
+
     {:ok,
      assign(socket,
        current_user: Repo.get!(User, user_id),
-       forums: Repo.all(Forum),
+       forums: Enum.reverse(Repo.all(Forum)),
        search: [],
        show_form: false,
        topic: topic
@@ -37,18 +38,17 @@ defmodule LivewaveWeb.ForumLive.ForumIndex do
         {:noreply, socket}
 
       {:error, _reason} ->
-          {:noreply,
-           socket
-           |> put_flash(:error, "Messages can't be blank ")}
+        {:noreply,
+         socket
+         |> put_flash(:error, "Messages can't be blank ")}
     end
   end
 
-  def handle_info(%{event: "new-forum-added", payload: foum}, socket) do
-    {:noreply, assign(socket, forums: Repo.all(Forum))}
+  def handle_info(%{event: "new-forum-added", payload: forum}, socket) do
+    {:noreply, assign(socket, forums: [forum] ++ socket.assigns.forums)}
   end
 
   def handle_event("delete-forum", %{"value" => forum_id}, socket) do
-    # IO.inspect(forum_id)
     Repo.get(Forum, forum_id)
     |> Repo.delete()
 
@@ -63,30 +63,33 @@ defmodule LivewaveWeb.ForumLive.ForumIndex do
 
   def render(assigns) do
     ~H"""
-    <div class="flex justify-between mx-10">
-      <strong> Forums: </strong>
+    <div class="flex justify-right mx-20 mb-2">
+      <strong>Forums:</strong>
       <form class="search-bar">
-        <input phx-change="search" placeholder="search" name="search"/>
+        <input phx-change="search" placeholder="search" name="search" class="mx-2 rounded-sm w-full"/>
       </form>
     </div>
     <div class="flex flex-row">
-    <div class="flex flex-col mx-10 max-w-lg">
-      <button phx-click="toggle-new-post" value={@show_form}> New Forum Post </button>
+    <div class=" forum-left flex flex-col mx-10">
+      <button phx-click="toggle-new-post" value={@show_form} class="btn rounded-t-lg">
+      <%= if @show_form do %>
+        Hide Form
+      <% else %>
+        Add New Forum Post
+      <%end%> </button>
     <%= if @show_form do %>
-    <form phx-submit="new-forum">
-      <label>Enter your question</label>
-      <input type="text" name="forum_name" class="block w-full border-0 border-b-2 border-gray-200 focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:text-gray-500 bg-transparent" placeholder="Underline" />
-      <button> Submit </button>
+    <form phx-submit="new-forum" class="forum-form">
+      <label class="text-gray-200">Forum Post:</label>
+      <textarea type="text" name="forum_name" class="textarea w-full bg-transparent italic" placeholder="Type here..." />
+      <button class="btn w-full rounded-b-lg"> Submit </button>
     </form>
     <%end%>
     </div>
-    <div class=" flex flex-col mx-auto mt-3 max-w-lg" >
-      <ul class="space-y-4">
+    <div class="forum-right" >
+      <ul class="forum space-y-4">
         <%= for forum <- @forums do  %>
-          <li class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">
-            </div>
-            <div class="flex-1">
+          <li class="flex forum-post card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
+            <div class="m-3">
                 <h4 class="text-xl font-medium leading-loose">
                 <strong><%= forum.name %></strong>
                 </h4>
