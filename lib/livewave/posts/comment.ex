@@ -4,8 +4,11 @@ defmodule Livewave.Posts.Comment do
 
   schema "comments" do
     field :body, :string
-    field :user_id, :id
-    field :forum_id, :id
+    # field :user_id, :id
+    # field :forum_id, :id
+
+    belongs_to :forum, Livewave.Rooms.Forum, foreign_key: :forum_id
+    belongs_to :user, Livewave.Accounts.User, foreign_key: :user_id
 
     timestamps()
   end

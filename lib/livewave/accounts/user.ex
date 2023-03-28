@@ -9,6 +9,7 @@ defmodule Livewave.Accounts.User do
     field :provider, :string
 
     has_many :messages, Livewave.Posts.Message
+    has_many :comments, Livewave.Posts.Comment
 
     timestamps()
   end
