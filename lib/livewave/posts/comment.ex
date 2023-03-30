@@ -16,7 +16,8 @@ defmodule Livewave.Posts.Comment do
   @doc false
   def changeset(comment, attrs) do
     comment
-    |> cast(attrs, [:body])
-    |> validate_required([:body])
+    |> cast(attrs, [:body, :user_id, :forum_id])
+    |> validate_required([:body, :user_id, :forum_id])
+    |> validate_length(:body, min: 1)
   end
 end

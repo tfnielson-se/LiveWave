@@ -2,11 +2,13 @@ defmodule LivewaveWeb.UserLive.UserProfile do
   use LivewaveWeb, :live_view
 
   require Logger
-
-  alias Livewave.Accounts
+  alias Livewave.Repo
+  alias Livewave.Accounts.{User}
 
   def mount(_params, %{"user_id" => user_id}, socket) do
-    {:ok, assign(socket, :current_user, Accounts.get_user!(user_id))}
+    current_user = Repo.get(User, user_id)
+    IO.inspect(current_user)
+    {:ok, assign(socket, :current_user, current_user)}
   end
 
   def handle_event("edit", _session, socket) do
@@ -15,13 +17,22 @@ defmodule LivewaveWeb.UserLive.UserProfile do
 
   def render(assigns) do
     ~H"""
-    <div class="card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
-      <div class=" p-4">
-        <h3 class="text-xl font-medium text-gray-900">
-          <strong>@<%= @current_user.username %></strong>
-        </h3>
-        <p class="mt-1 text-zinc-900"><%= @current_user.email %></p>
-      </div>
+    <div class="mx-auto max-w-lg">
+      <ul class="space-y-4">
+          <li class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
+          <div class="h-10 w-10 m-2">
+            <img class="h-full w-full rounded-full object-cover object-center" src={@current_user.image} alt="" />
+          </div>
+            <div class="flex-1">
+                <h4 class="text-xl font-medium leading-loose">
+                  <strong>@<%= @current_user.username %></strong>
+                </h4>
+                <h4 class="text-l font-small leading-loose">
+                  email: <%= @current_user.email %>
+                </h4>
+            </div>
+          </li>
+      </ul>
     </div>
     """
   end

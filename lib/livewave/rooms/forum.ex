@@ -5,6 +5,8 @@ defmodule Livewave.Rooms.Forum do
   schema "forums" do
     field :name, :string
 
+    has_many :comments, Livewave.Posts.Comment
+    has_many :users, through: [:comments, :user]
     timestamps()
   end
 

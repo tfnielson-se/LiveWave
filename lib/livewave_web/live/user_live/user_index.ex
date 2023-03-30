@@ -15,6 +15,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
     if connected?(socket) do
       # Livewave.Presence.track(self(), )
     end
+
     {:ok, assign(socket, users: Accounts.list_users(), current_user: current_user)}
   end
 
@@ -49,14 +50,16 @@ defmodule LivewaveWeb.UserLive.UserIndex do
 
   def render(assigns) do
     ~H"""
+    <div>
+    </div>
     <div class="mx-auto max-w-lg">
       <ul class="space-y-4">
         <%= for user <- @users do  %>
         <%= unless user == @current_user do %>
-          <li phx-click="save" value={user.id} class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">
-
-            </div>
+          <li class="flex card mx-auto max-w-md rounded-tr-3xl rounded-lg shadow-lg shadow-blue-500/40">
+          <div class="h-10 w-10 m-2">
+            <img class="h-full w-full rounded-full object-cover object-center" src={user.image} alt="" />
+          </div>
             <div class="flex-1">
                 <h4 class="text-xl font-medium leading-loose">
                   <strong>@<%= user.username %></strong>
@@ -65,6 +68,7 @@ defmodule LivewaveWeb.UserLive.UserIndex do
                   email: <%= user.email %>
                 </h4>
             </div>
+            <button phx-click="save" value={user.id} class="text-3xl mr-5">💬</button>
           </li>
           <%end %>
         <% end %>

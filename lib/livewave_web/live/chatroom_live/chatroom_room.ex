@@ -49,8 +49,6 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
 
     new_msg = Message.changeset(%Message{}, %{body: message, user_id: current_user, chatroom_id: String.to_integer(room_id)})
 
-    IO.inspect(new_msg)
-
     case Repo.insert(new_msg) do
       {:ok, message} ->
         broadcast(socket.assigns.topic, "new-message", message)
@@ -71,8 +69,8 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
 
   # needed for broadcast
   def handle_info(%{event: "new-message", payload: message}, socket) do
-    # IO.inspect(payload: message.body)
-    {:noreply, assign(socket, messages: Repo.all(Message))}
+
+    {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
   end
 
   # needed for presence.track
@@ -89,7 +87,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
     <div class="chatroom-head">
       <strong><%= @room_name %></strong>
     </div>
-    <div class="online-card flex flex-col justify-center ">
+    <div class="online-card flex flex-col justify-center">
       <strong class="underline">Online Users:</strong>
     <%= for online_user <- @online_users do %>
     <div>
@@ -101,12 +99,12 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomRoom do
       <div class="messages-area">
         <%= for message <- @messages do %>
           <%= if message.user_id == @current_user.id do %>
-            <div class="card single-msg-current-user">
+            <div class="card single-msg-current-user shadow-md">
               <p><small>from: @<%= @current_user.username %></small></p>
               <strong class=""><%= message.body %></strong>
             </div>
           <% else %>
-            <div class="card single-msg-other-user">
+            <div class="card single-msg-other-user shadow-md">
               <p><small>from: @<%= Repo.get(User, message.user_id).username %></small></p>
               <strong><%= message.body %></strong>
             </div>

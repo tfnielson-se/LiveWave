@@ -31,12 +31,12 @@ defmodule LivewaveWeb.Router do
     live "/profile", UserLive.UserProfile
     live "/users", UserLive.UserIndex
 
-    live "/new_chat", MessageLive.NewMessage
 
     live "/chatrooms", ChatroomLive.ChatroomIndex
     live "/chatrooms/:id", ChatroomLive.ChatroomRoom
 
     live "/forums", ForumLive.ForumIndex, :index
+    live "/forums/:id", ForumLive.ForumShow
   end
 
   scope "/auth", LivewaveWeb do

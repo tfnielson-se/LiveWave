@@ -47,7 +47,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomIndex do
             </div>
             <div class="flex-1">
               <.link navigate={~p"/chatrooms/#{chatroom.id}"}>
-                <button class="text-xl font-medium leading-loose">
+                <button class="text-xl font-medium leading-loose pl-5">
                   <%= chatroom.name %>
                 </button>
               </.link>
@@ -56,7 +56,7 @@ defmodule LivewaveWeb.ChatroomLive.ChatroomIndex do
               </div>
             </div>
           </li>
-        <%end%>
+        <% end %>
         <% end %>
       </ul>
     </div>
