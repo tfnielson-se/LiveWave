@@ -17,4 +17,18 @@ defmodule Livewave.PostsFixtures do
 
     message
   end
+
+  @doc """
+  Generate a comment.
+  """
+  def comment_fixture(attrs \\ %{}) do
+    {:ok, comment} =
+      attrs
+      |> Enum.into(%{
+        body: "some body"
+      })
+      |> Livewave.Posts.create_comment()
+
+    comment
+  end
 end

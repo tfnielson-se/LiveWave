@@ -17,4 +17,18 @@ defmodule Livewave.RoomsFixtures do
 
     chatroom
   end
+
+  @doc """
+  Generate a forum.
+  """
+  def forum_fixture(attrs \\ %{}) do
+    {:ok, forum} =
+      attrs
+      |> Enum.into(%{
+        name: "some name"
+      })
+      |> Livewave.Rooms.create_forum()
+
+    forum
+  end
 end

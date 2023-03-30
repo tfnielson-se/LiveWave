@@ -8,7 +8,7 @@
       </small>
     </h1>
     <p class="mt-4 text-[2rem] font-semibold leading-10 tracking-tighter text-zinc-900">
-      Welcome to LiveWave 🌊
+      Welcome to LiveWave <span class="text-zinc-100">🌊</span>
     </p>
     <p class="mt-4 text-base leading-7 text-zinc-600">
       Real Time. Real Talk. Real Quick
@@ -16,13 +16,24 @@
     <div class="flex">
       <div class="w-full sm:w-auto">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
-      <%= if @conn.assigns.user do %>
-      <.link navigate={~p"/profile"}><.button>Profile</.button></.link>
-      <.link navigate={~p"/chatrooms"}><.button>Chat 💬</.button></.link>
-      <.link navigate={~p"/auth/signout"}><.button>Logout</.button></.link>
-      <% else %>
-      <.link navigate={~p"/auth/github"}> <.button>Sign in with Github</.button></.link>
-      <% end %>
+          <%= if @conn.assigns.user do %>
+            <.link navigate={~p"/profile"} class="card">
+              <.button>Profile</.button>
+            </.link>
+            <.link navigate={~p"/chatrooms"} class="card">
+              <.button>Chat 💬</.button>
+            </.link>
+            <.link navigate={~p"/auth/signout"} class="card">
+              <.button>Logout</.button>
+            </.link>
+          <% else %>
+            <.link navigate={~p"/auth/github"} class="card">
+              <.button>Sign in with Github</.button>
+            </.link>
+            <%!-- <.link navigate={~p"/auth/google"} class="card">
+              <.button>Sign in with Google</.button>
+            </.link> --%>
+          <% end %>
         </div>
       </div>
     </div>

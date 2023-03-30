@@ -49,6 +49,7 @@ defmodule Livewave.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ueberauth, "~> 0.7"},
       {:ueberauth_github, "~> 0.8"},
+      {:ueberauth_google, "~> 0.10"},
       {:dotenv, "~> 3.0.0"}
     ]
   end

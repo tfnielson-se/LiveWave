@@ -31,29 +31,12 @@ defmodule LivewaveWeb.Router do
     live "/profile", UserLive.UserProfile
     live "/users", UserLive.UserIndex
 
-    live "/new_chat", MessageLive.NewMessage
 
     live "/chatrooms", ChatroomLive.ChatroomIndex
     live "/chatrooms/:id", ChatroomLive.ChatroomRoom
 
-    # live "/users", UserLive.Index, :index
-    # live "/users/new", UserLive.Index, :new
-    live "/users/:id/edit", UserLive.Index, :edit
-    # live "/users/:id", UserLive.Show, :show
-    # live "/users/:id/show/edit", UserLive.Show, :edit
-
-    # live "/chatrooms", ChatroomLive.Index, :index
-    # live "/chatrooms/:id/edit", ChatroomLive.Index, :edit
-    # live "/chatrooms/new", ChatroomLive.Index, :new
-    # live "/chatrooms/:id", ChatroomLive.Show, :show
-    # live "/chatrooms/:id/show/edit", ChatroomLive.Show, :edit
-
-    live "/messages", MessageLive.Index, :index
-    live "/messages/new", MessageLive.Index, :new
-    live "/messages/:id/edit", MessageLive.Index, :edit
-
-    live "/messages/:id", MessageLive.Show, :show
-    live "/messages/:id/show/edit", MessageLive.Show, :edit
+    live "/forums", ForumLive.ForumIndex, :index
+    live "/forums/:id", ForumLive.ForumShow
   end
 
   scope "/auth", LivewaveWeb do
@@ -69,3 +52,22 @@ defmodule LivewaveWeb.Router do
   #   pipe_through :api
   # end
 end
+
+    # live "/users", UserLive.Index, :index
+    # live "/users/new", UserLive.Index, :new
+    # live "/users/:id/edit", UserLive.Index, :edit
+    # live "/users/:id", UserLive.Show, :show
+    # live "/users/:id/show/edit", UserLive.Show, :edit
+
+    # live "/chatrooms", ChatroomLive.Index, :index
+    # live "/chatrooms/:id/edit", ChatroomLive.Index, :edit
+    # live "/chatrooms/new", ChatroomLive.Index, :new
+    # live "/chatrooms/:id", ChatroomLive.Show, :show
+    # live "/chatrooms/:id/show/edit", ChatroomLive.Show, :edit
+
+    # live "/messages", MessageLive.Index, :index
+    # live "/messages/new", MessageLive.Index, :new
+    # live "/messages/:id/edit", MessageLive.Index, :edit
+
+    # live "/messages/:id", MessageLive.Show, :show
+    # live "/messages/:id/show/edit", MessageLive.Show, :edit

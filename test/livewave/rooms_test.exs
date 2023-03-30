@@ -56,4 +56,58 @@ defmodule Livewave.RoomsTest do
       assert %Ecto.Changeset{} = Rooms.change_chatroom(chatroom)
     end
   end
+
+  describe "forums" do
+    alias Livewave.Rooms.Forum
+
+    import Livewave.RoomsFixtures
+
+    @invalid_attrs %{name: nil}
+
+    test "list_forums/0 returns all forums" do
+      forum = forum_fixture()
+      assert Rooms.list_forums() == [forum]
+    end
+
+    test "get_forum!/1 returns the forum with given id" do
+      forum = forum_fixture()
+      assert Rooms.get_forum!(forum.id) == forum
+    end
+
+    test "create_forum/1 with valid data creates a forum" do
+      valid_attrs = %{name: "some name"}
+
+      assert {:ok, %Forum{} = forum} = Rooms.create_forum(valid_attrs)
+      assert forum.name == "some name"
+    end
+
+    test "create_forum/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Rooms.create_forum(@invalid_attrs)
+    end
+
+    test "update_forum/2 with valid data updates the forum" do
+      forum = forum_fixture()
+      update_attrs = %{name: "some updated name"}
+
+      assert {:ok, %Forum{} = forum} = Rooms.update_forum(forum, update_attrs)
+      assert forum.name == "some updated name"
+    end
+
+    test "update_forum/2 with invalid data returns error changeset" do
+      forum = forum_fixture()
+      assert {:error, %Ecto.Changeset{}} = Rooms.update_forum(forum, @invalid_attrs)
+      assert forum == Rooms.get_forum!(forum.id)
+    end
+
+    test "delete_forum/1 deletes the forum" do
+      forum = forum_fixture()
+      assert {:ok, %Forum{}} = Rooms.delete_forum(forum)
+      assert_raise Ecto.NoResultsError, fn -> Rooms.get_forum!(forum.id) end
+    end
+
+    test "change_forum/1 returns a forum changeset" do
+      forum = forum_fixture()
+      assert %Ecto.Changeset{} = Rooms.change_forum(forum)
+    end
+  end
 end

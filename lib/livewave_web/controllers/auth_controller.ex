@@ -1,19 +1,24 @@
 defmodule LivewaveWeb.AuthController do
   use LivewaveWeb, :controller
-  plug(Ueberauth)
   require Logger
 
   alias Livewave.Repo
   alias Livewave.Accounts.User
 
+  plug(Ueberauth)
+
   def callback(%{assigns: %{ueberauth_auth: auth}} = socket, _params) do
+    IO.inspect("----->")
+
     user_params = %{
       email: auth.info.email,
       username: auth.info.nickname,
+      image: auth.info.image,
       token: auth.credentials.token,
       provider: "github"
     }
 
+    IO.inspect(user_params)
     changeset = User.changeset(%User{}, user_params)
 
     signin(socket, changeset)

@@ -2,39 +2,47 @@
   <div class="flex items-center justify-between border-b border-zinc-100 py-3">
     <div class="flex items-center gap-4">
       <.link navigate="/">
-      <strong class="text-xl">LiveWave |></strong>
+      <strong class="text-xl">LiveWave</strong>
       </.link>
-
+    <.link
+        navigate="/profile"
+        class="card rounded-lg bg-indigo-400 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100"
+      >
+        👤 Profile
+      </.link>
       <.link
         navigate="/users"
-        class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+        class="card rounded-lg bg-indigo-500 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100"
       >
-        Users
+        👥 Users
       </.link>
       <.link
         navigate="/chatrooms"
-        class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+        class="card rounded-lg bg-indigo-600 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100"
       >
-        Chats
+        💬 Chats
       </.link>
     <.link
-        navigate="/messages"
-        class="rounded-lg bg-zinc-100 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-900 hover:bg-zinc-200/80 active:text-zinc-900/70"
+        navigate="/forums"
+        class="card rounded-lg bg-indigo-700 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100"
       >
-        Msg
+        🗒️ Forums
       </.link>
     </div>
       <.link
         navigate="/auth/signout"
-        class="rounded-lg bg-zinc-900 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100 hover:bg-red-500"
+        class="card rounded-lg bg-zinc-900 px-2 py-1 text-[0.8125rem] font-semibold leading-6 text-zinc-100"
       >
         Log out <span aria-hidden="true">&rarr;</span>
       </.link>
   </div>
 </header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
+<main class="px-4 py-10 sm:px-6 lg:px-8">
   <div class="mx-auto">
     <.flash_group flash={@flash} />
     <%= @inner_content %>
   </div>
 </main>
+<footer>
+
+</footer>
